@@ -30,13 +30,11 @@ app.use(express.static('public/javascripts'));
 //app.use(express.static('public/html'));
 
 //app.use('/', index);
-app.use('/login',function (req, res) {
+app.use('/',function (req, res) {
   res.sendFile(path.join(__dirname,'html/Login.html'));
 });
 
-app.use('/',function (req, res) {
-  res.sendFile(path.join(__dirname,'html/index.html'));
-});
+
 app.use('/users', users);
 
 // catch 404 and forward to error handler
