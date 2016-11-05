@@ -21,10 +21,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+/*app.use(express.static('images'))
+app.use(express.static('javascripts'))
+ */
+app.use(express.static('public/stylesheets'));
+app.use(express.static('public/images'));
+app.use(express.static('public/javascripts'));
+//app.use(express.static('public/html'));
 
 //app.use('/', index);
+app.use('/login',function (req, res) {
+  res.sendFile(path.join(__dirname,'html/Login.html'));
+});
+
 app.use('/',function (req, res) {
-  res.sendFile(path.join(__dirname,'/html/index.html'));
+  res.sendFile(path.join(__dirname,'html/index.html'));
 });
 app.use('/users', users);
 
