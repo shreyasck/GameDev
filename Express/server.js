@@ -1,8 +1,23 @@
 var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
-var db = require('./db');
+//var db= require('./db');
+var mongodb = require('mongodb');
+var MongoClient = mongodb.MongoClient;
+//var url = 'mongodb://localhost:27017/localdb';
+var url = 'mongodb://admin:123@ds050189.mlab.com:50189/miedb';
+var conn;
 
+
+
+
+mongodb.MongoClient.connect(url, function(err, database) {
+    if(err) throw err;
+
+    conn = database;
+
+    console.log('DB connected on: ' + url);
+});
 
 // Configure the local strategy for use by Passport.
 //
@@ -13,13 +28,15 @@ var db = require('./db');
 passport.use(new Strategy(
     function(username, password, cb) {
      //   console.log('user name:' + username + '  passport:'+ passport);
-        db.users.findByUsername(username, function(err, user) {
-            if (err) { return cb(err); }
-            if (!user) { return cb(null, false); }
-            if (user.password != password) { return cb(null, false); }
-            return cb(null, user);
+        var collection = conn.collection('users');
+        collection.findOne({username:username}, function(err, item) {
+            if (!item) { return cb(null, false); }
+            if (item.password != password) { return cb(null, false); }
+            return cb(null, item);
         });
-    }));
+
+
+        }));
 
 
 // Configure Passport authenticated session persistence.
@@ -34,10 +51,17 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-    db.users.findById(id, function (err, user) {
+    var collection = conn.collection('users');
+    collection.findOne({id:id}, function(err, item) {
+        if (err) { return cb(err); }
+        cb(null, item);
+    });
+
+    /* db.users.findById(id, function (err, user) {
         if (err) { return cb(err); }
         cb(null, user);
     });
+    */
 });
 
 
@@ -48,6 +72,7 @@ var app = express();
 app.use(express.static('public/stylesheets'));
 app.use(express.static('public/images'));
 app.use(express.static('public/javascripts'));
+//app.use(express.static('views'));
 // Configure view engine to render EJS templates.
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -67,6 +92,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+app.get('/test',
+    function(req, res) {
+        res.sendfile('views/test.html');
+        // res.render('signin');
+    });
 
 app.get('/',
     function(req, res) {
@@ -84,6 +114,13 @@ app.get('/signin',
         res.render('signin');
         //   res.sendFile('Login.html');
     });
+
+app.post('/signup',
+    function(req, res){
+        res.render('signin');
+        //   res.sendFile('Login.html');
+    });
+
 app.post('/login',
     passport.authenticate('local', { failureRedirect: '/signin  ' }),
     function(req, res) {
