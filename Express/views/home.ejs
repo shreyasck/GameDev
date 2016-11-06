@@ -1,0 +1,14 @@
+<html>
+<head>
+	<title><%= title %></title>
+</head>
+<bod>
+
+<% if (!user) { %>
+	<p>Welcome! Please <a href="/signin">log in</a>.</p>
+<% } else { %>
+	<p>Hello, <%= user.username %>. View your <a href="/profile">profile</a>.</p>
+<% } %>
+
+</bod>
+</html>
