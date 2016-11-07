@@ -7,3 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+module.exports = function(app) {
+  var index = require('../controllers/index.server.controller');
+  app.get('/', index.render);
+};
