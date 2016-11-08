@@ -139,6 +139,11 @@ app.get('/profile',
         res.render('profile', { user: req.user });
     });
 
+app.get('/startGame',
+    require('connect-ensure-login').ensureLoggedIn(),
+    function(req, res){
+        res.render('startGame');//, { user: req.user });
+    });
 //app.listen(4000);
 
 module.exports = app;
