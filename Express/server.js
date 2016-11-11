@@ -4,8 +4,8 @@ var Strategy = require('passport-local').Strategy;
 //var db= require('./db');
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
-//var url = 'mongodb://localhost:27017/localdb';
-var url = 'mongodb://admin:123@ds050189.mlab.com:50189/miedb';
+var url = 'mongodb://localhost:27017/mydb';
+//var url = 'mongodb://admin:123@ds050189.mlab.com:50189/miedb';
 var conn;
 
 
