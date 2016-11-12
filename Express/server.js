@@ -4,8 +4,8 @@ var Strategy = require('passport-local').Strategy;
 //var db= require('./db');
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
-var url = 'mongodb://localhost:27017/mydb';
-//var url = 'mongodb://admin:123@ds050189.mlab.com:50189/miedb';
+//var url = 'mongodb://localhost:27017/mydb';
+var url = 'mongodb://admin:123@ds050189.mlab.com:50189/miedb';
 var conn;
 
 
@@ -28,7 +28,7 @@ mongodb.MongoClient.connect(url, function(err, database) {
 passport.use(new Strategy(
     function(username, password, cb) {
      //   console.log('user name:' + username + '  passport:'+ passport);
-        var collection = conn.collection('users');
+        var collection = conn.collection('tbl_user');
         collection.findOne({username:username}, function(err, item) {
             if (!item) { return cb(null, false); }
             if (item.password != password) { return cb(null, false); }
@@ -51,7 +51,7 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-    var collection = conn.collection('users');
+    var collection = conn.collection('tbl_user');
     collection.findOne({id:id}, function(err, item) {
         if (err) { return cb(err); }
         cb(null, item);
@@ -79,7 +79,7 @@ app.set('view engine', 'ejs');
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
-app.use(require('morgan')('combined'));
+app.use(require('morgan')('tiny'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
@@ -115,8 +115,11 @@ app.get('/signin',
         //   res.sendFile('Login.html');
     });
 
-app.post('/signup',
+app.post('/signin',
     function(req, res){
+        //change user status
+
+
         res.render('signin');
         //   res.sendFile('Login.html');
     });
@@ -130,11 +133,27 @@ app.get('/forgotpassword',
 app.post('/login',
     passport.authenticate('local', { failureRedirect: '/signin  ' }),
     function(req, res) {
+        //change user status to logged "IN"
+        var userId = req.user.id;
+        console.log("User id: " + userId);
+        var collection = conn.collection('tbl_user');
+        collection.update({"id":userId}, {$set:{"onlineflag":true}});
+        /*
+        collection.findOne({id:userId}, function(err, item) {
+            item['onlineflag']=true;
+            console.log("Onlineflag is set");
+        });*/
+        //
         res.redirect('/');
     });
 
 app.get('/logout',
     function(req, res){
+        var userId = req.user.id;
+        console.log("User id: " + userId);
+        //To set flag when user logged out
+        var collection = conn.collection('tbl_user');
+        collection.update({"id":userId}, {$set:{"onlineflag":false}});
         req.logout();
         res.redirect('/');
     });
