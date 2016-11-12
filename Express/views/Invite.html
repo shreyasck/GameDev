@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>INVITING</title>
+
+    <img src="http://downloadicons.net/sites/default/files/user-icon-44709.png" alt="User" style="width:200px;height:200px;"/>
+    <h2  style="color:blue;">USER </h2>
+    <!--<script>
+        function togglecheckboxes(master,cn) {
+            var cbarray=document.getElementsByClassName(cn);
+            for (var i=0; i< cbarray.length;i++){
+                var cb = document.getElementById(cbarray[i].id);
+
+                cb.checked = master.checked;
+
+            }
+        }
+    </script>-->
+    <style>
+        table, th, td {
+            border: 1px solid black ;
+        }
+    </style>
+</head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<body> 
+<div class="w3-container" style="text-align: center;">
+
+    <h1  style="color:BLUE;">Invite a friend !!!</h1><br>
+
+    <!--
+    <input type ="checkbox" id="usergrp_master" onchange="togglecheckboxes(this,'usergrp')"> Select all<br><br>-->
+
+    <table align="center" style="width:50%" style="text-align: center;"  class="w3-table-all w3-centered">
+        <tr>
+            <th>Select</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+
+        </tr>
+
+        <tr><td><input type="checkbox" id="user_1" class="usergrp"></td><td>John</td><td>Andria</td></tr>
+        <tr><td><input type="checkbox" id="user_2" class="usergrp"></td><td>Moritz</td><td>Babloo</td></tr>
+        <tr><td><input type="checkbox" id="user_3" class="usergrp"></td><td>Tim</td><td>Ciana</td></tr>
+        <tr><td><input type="checkbox" id="user_4" class="usergrp"></td><td>Jana</td><td>Deny</td></tr>
+        <tr><td><input type="checkbox" id="user_5" class="usergrp"></td><td>Ann</td><td>Eliza</td></tr>
+    </table>
+    <br>
+    <form action="invite_page.php">
+
+        <input type="submit" value="Submit"  class="w3-btn w3-indigo">
+    </form>
+
+
+    <p>If you click the "Submit" button, the invite will be sent to the selected player </p>
+</div>
+
+
+</body>
+
+</html>
