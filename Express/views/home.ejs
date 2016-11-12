@@ -11,15 +11,13 @@
 <div id="wrap">
 	<div id="regbar">
 		<div id="navthing">
-			<h2><a href="/profile" id="loginform">User Info</a> | <a href="#">Sign Out</a></h2>
+			<h2><a href="#" id="loginform">User Info</a> | <a href="#">Sign Out</a></h2>
 			<div class="login">
 				<div class="arrow-up"></div>
 				<div class="formholder">
 					<div class="randompad">
 						<fieldset>
-							<label name="email">Name</label>
 
-							<label name="password">Username</label>
 
 
 							<% if (!user) { %>
@@ -28,6 +26,14 @@
 							<p>Hello, <%= user.username %>. View your <a href="/profile">profile</a>.</p>
 							<% } %>
 							<br/>
+							<p>
+								ID: <%= user.id %><br/>
+								Username: <%= user.username %><br/>
+								Name: <%= user.displayName %><br/>
+								<% if (user.emails) { %>
+								Email: <%= user.emails[0].value %><br/>
+								<% } %>
+							</p>
 							<a href="/startGame">Start Game</a>
 
 						</fieldset>
@@ -42,6 +48,7 @@
 
 <script src="home.js"></script>
 <link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="css/style.css">
 
 </body>
 
