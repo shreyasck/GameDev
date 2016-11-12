@@ -66,5 +66,24 @@
  })
 
 
+ //Garima
+ db
+ show collections
+ db.tbl_GameInitialData.insert({
+ Id: "2",
+ LevelId :"1",
+ JsonArray:[
+ [3,0,0,0],
+ [0,4,0,0],
+ [0,2,0,4],
+ [0,0,0,0]
+ ]
+ })
+
+
+ db.tbl_GameInitialData.find().pretty()
+ db.tbl_GameInitialData.findOne().JsonArray[0][1]
+
+
  db.tbl_GameInitialData.find().pretty()
  db.tbl_GameInitialData.findOne().JsonArray[0][1]
