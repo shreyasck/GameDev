@@ -4,8 +4,8 @@ var Strategy = require('passport-local').Strategy;
 //var db= require('./db');
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
-var url = 'mongodb://localhost:27017/mydb';
-//var url = 'mongodb://admin:123@ds050189.mlab.com:50189/miedb';
+//var url = 'mongodb://localhost:27017/mydb';
+var url = 'mongodb://admin:123@ds050189.mlab.com:50189/miedb';
 var conn;
 
 
@@ -28,7 +28,7 @@ mongodb.MongoClient.connect(url, function(err, database) {
 passport.use(new Strategy(
     function(username, password, cb) {
      //   console.log('user name:' + username + '  passport:'+ passport);
-        var collection = conn.collection('users');
+        var collection = conn.collection('tbl_user');
         collection.findOne({username:username}, function(err, item) {
             if (!item) { return cb(null, false); }
             if (item.password != password) { return cb(null, false); }
@@ -51,7 +51,7 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-    var collection = conn.collection('users');
+    var collection = conn.collection('tbl_user');
     collection.findOne({id:id}, function(err, item) {
         if (err) { return cb(err); }
         cb(null, item);
@@ -63,8 +63,6 @@ passport.deserializeUser(function(id, cb) {
     });
     */
 });
-
-
 
 // Create a new Express application.
 var app = express();
@@ -100,14 +98,20 @@ app.get('/test',
 
 app.get('/',
     function(req, res) {
-        res.render('home', { user: req.user, title:"Sudoku Online Match" });
+        res.render('login', { user: req.user, title:"Sudoku Online Match" });
        // res.render('signin');
     });
 app.get('/home',
     function(req, res) {
-        res.render('home', { user: req.user, title:"Sudoku Online Match" });
+        res.render('home' );
         // res.render('signin');
     });
+app.get('/error',
+    function(req, res) {
+        res.render('error');
+        // res.render('signin');
+    });
+
 
 app.get('/login',
     function(req, res){
@@ -133,9 +137,10 @@ app.get('/forgotpassword',
     });
 
 app.post('/login',
-    passport.authenticate('local', { failureRedirect: '/login' }),
+    passport.authenticate('local', { failureRedirect: '/error' }),
     function(req, res) {
-        res.redirect('/home');
+        res.render('home',{ user: req.user ,title:"Sudoku Online Match"});
+
     });
 
 app.get('/logout',
@@ -147,7 +152,7 @@ app.get('/logout',
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
-        res.render('profile', { user: req.user });
+        res.render('profile', { user: req.user , title:"Sudoku Online Match"});
     });
 
 app.get('/startGame',
