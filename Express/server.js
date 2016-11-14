@@ -103,6 +103,11 @@ app.get('/',
         res.render('home', { user: req.user, title:"Sudoku Online Match" });
        // res.render('signin');
     });
+app.get('/home',
+    function(req, res) {
+        res.render('home', { user: req.user, title:"Sudoku Online Match" });
+        // res.render('signin');
+    });
 
 app.get('/login',
     function(req, res){
@@ -129,9 +134,9 @@ app.get('/forgotpassword',
     });
 
 app.post('/login',
-    passport.authenticate('local', { failureRedirect: '/signin  ' }),
+    passport.authenticate('local', { failureRedirect: '/login' }),
     function(req, res) {
-        res.redirect('/');
+        res.redirect('/home');
     });
 
 app.get('/logout',
