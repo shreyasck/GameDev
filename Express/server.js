@@ -64,8 +64,6 @@ passport.deserializeUser(function(id, cb) {
     */
 });
 
-
-
 // Create a new Express application.
 var app = express();
 //app.use(express.static('html'));
@@ -79,7 +77,7 @@ app.set('view engine', 'ejs');
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
-app.use(require('morgan')('tiny'));
+app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
@@ -100,9 +98,20 @@ app.get('/test',
 
 app.get('/',
     function(req, res) {
-        res.render('home', { user: req.user, title:"Sudoku Online Match" });
+        res.render('login', { user: req.user, title:"Sudoku Online Match" });
        // res.render('signin');
     });
+app.get('/home',
+    function(req, res) {
+        res.render('home' );
+        // res.render('signin');
+    });
+app.get('/error',
+    function(req, res) {
+        res.render('error');
+        // res.render('signin');
+    });
+
 
 app.get('/login',
     function(req, res){
@@ -115,11 +124,8 @@ app.get('/signin',
         //   res.sendFile('Login.html');
     });
 
-app.post('/signin',
+app.post('/signup',
     function(req, res){
-        //change user status
-
-
         res.render('signin');
         //   res.sendFile('Login.html');
     });
@@ -131,29 +137,14 @@ app.get('/forgotpassword',
     });
 
 app.post('/login',
-    passport.authenticate('local', { failureRedirect: '/signin  ' }),
+    passport.authenticate('local', { failureRedirect: '/error' }),
     function(req, res) {
-        //change user status to logged "IN"
-        var userId = req.user.id;
-        console.log("User id: " + userId);
-        var collection = conn.collection('tbl_user');
-        collection.update({"id":userId}, {$set:{"onlineflag":true}});
-        /*
-        collection.findOne({id:userId}, function(err, item) {
-            item['onlineflag']=true;
-            console.log("Onlineflag is set");
-        });*/
-        //
-        res.redirect('/');
+        res.render('home',{ user: req.user ,title:"Sudoku Online Match"});
+
     });
 
 app.get('/logout',
     function(req, res){
-        var userId = req.user.id;
-        console.log("User id: " + userId);
-        //To set flag when user logged out
-        var collection = conn.collection('tbl_user');
-        collection.update({"id":userId}, {$set:{"onlineflag":false}});
         req.logout();
         res.redirect('/');
     });
@@ -161,7 +152,7 @@ app.get('/logout',
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
-        res.render('profile', { user: req.user });
+        res.render('profile', { user: req.user , title:"Sudoku Online Match"});
     });
 
 app.get('/startGame',
