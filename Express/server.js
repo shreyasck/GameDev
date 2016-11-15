@@ -139,6 +139,14 @@ app.get('/forgotpassword',
         //   res.sendFile('Login.html');
     });
 
+
+app.post('/forgotpassword',
+    function(req, res){
+        res.render('login');
+        //   res.sendFile('Login.html');
+    });
+
+
 app.post('/login',
     passport.authenticate('local', { failureRedirect: '/error' }),
 
