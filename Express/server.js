@@ -155,6 +155,7 @@ app.get('/profile',
         res.render('profile', { user: req.user , title:"Sudoku Online Match"});
     });
 
+
 app.get('/startGame',
     require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
