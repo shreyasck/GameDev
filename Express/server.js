@@ -120,6 +120,7 @@ app.get('/login',
         res.render('login');
      //   res.sendFile('Login.html');
     });
+
 app.get('/signin',
     function(req, res){
         res.render('signin');
@@ -137,6 +138,14 @@ app.get('/forgotpassword',
         res.render('forgotpassword');
         //   res.sendFile('Login.html');
     });
+
+
+app.post('/forgotpassword',
+    function(req, res){
+        res.render('login');
+        //   res.sendFile('Login.html');
+    });
+
 
 app.post('/login',
     passport.authenticate('local', { failureRedirect: '/error' }),
