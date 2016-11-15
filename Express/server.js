@@ -193,6 +193,15 @@ app.get('/verification',
 // need to change user verification flag to true
 
     function(req, res){
+        var collection = conn.collection('tbl_user');
+
+        var username = req.param('username');
+        var id = req.param('id');
+
+        console.log("user name:  VerificationFlag is changed"+ username + " ID : "+ id);
+
+        collection.updateOne({"username":username}, {$set:{"VerificationFlag":true}});
+
         res.render('verification'); //,{ user:req.user}
     })
 
