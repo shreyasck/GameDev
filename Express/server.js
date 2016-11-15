@@ -188,7 +188,7 @@ app.get('/startGame',
     });
 //app.listen(4000);
 
-app.get('/verification',
+app.get('/1',
    // require('connect-ensure-login').ensureLoggedIn(),
 // need to change user verification flag to true
 

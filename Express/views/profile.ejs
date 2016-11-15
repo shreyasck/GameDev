@@ -8,3 +8,19 @@ Email: <%= user.emails[0].value %><br/>
 <% } %>
 </p>
 <a href="/logout">Log out</a>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Information</title>
+</head>
+<body>
+
+<h2>Username:<%= user.username %> </h2>
+<h2>E-mail: <%= user.emails[0].value %> </h2>
+<h2>Creation Date: </h2>
+<h2>Password: </h2>
+<h2>Score:</h2>
+</body>
+</html>
