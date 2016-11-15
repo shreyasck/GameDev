@@ -146,19 +146,7 @@ function(req, res) {
 
     //change the login status
 
-    var collection = conn.collection('tbl_user');
-   console.log("user name: "+req.user.username);
-    collection.updateOne({"username":req.user.username}, {$set:{"onlineflag":true}});
-
-    /*collection.findOne({username:req.username}, function(err, item) {
-        item.update({"username":item.username}, {$set:{"onlineflag":true}});
-
-    });
-*/
-
-
-
-    console.log("flag updated");
+    changeUserFlag(req.user.username, true);
 
         res.render('home',{ user: req.user ,title:"Sudoku Online Match"});
 
@@ -166,10 +154,17 @@ function(req, res) {
 
 app.get('/logout',
     function(req, res){
+        //change the logged out status
+        changeUserFlag(req.user.username, false);
         req.logout();
         res.redirect('/');
     });
+function  changeUserFlag(username, status) {
+    var collection = conn.collection('tbl_user');
+    console.log("user name:  flag is changed"+ username);
+    collection.updateOne({"username":username}, {$set:{"onlineflag":status}});
 
+}
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
