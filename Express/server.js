@@ -5,7 +5,7 @@ var Strategy = require('passport-local').Strategy;
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 //var url = 'mongodb://localhost:27017/mydb';
-var url = 'mongodb://admin:123@ds050189.mlab.com:50189/miedb';
+var url = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
 var conn;
 
 
@@ -115,6 +115,8 @@ app.get('/error',
 
 app.get('/login',
     function(req, res){
+        //change status
+        
         res.render('login');
      //   res.sendFile('Login.html');
     });
@@ -138,7 +140,23 @@ app.get('/forgotpassword',
 
 app.post('/login',
     passport.authenticate('local', { failureRedirect: '/error' }),
-    function(req, res) {
+
+
+function(req, res) {
+
+    //change the login status
+
+    var collection = conn.collection('tbl_user');
+   console.log("user name: "+req.user.username);
+    collection.updateOne({"username":req.user.username}, {$set:{"onlineflag":true}});
+
+    /*collection.findOne({username:req.username}, function(err, item) {
+        item.update({"username":item.username}, {$set:{"onlineflag":true}});
+
+    });
+*/
+    console.log("flag updated");
+
         res.render('home',{ user: req.user ,title:"Sudoku Online Match"});
 
     });
