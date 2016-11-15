@@ -5,7 +5,7 @@ var Strategy = require('passport-local').Strategy;
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 //var url = 'mongodb://localhost:27017/mydb';
-var url = 'mongodb://admin:123@ds050189.mlab.com:50189/miedb';
+var url = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
 var conn;
 
 
@@ -115,9 +115,12 @@ app.get('/error',
 
 app.get('/login',
     function(req, res){
+        //change status
+        
         res.render('login');
      //   res.sendFile('Login.html');
     });
+
 app.get('/signin',
     function(req, res){
         res.render('signin');
@@ -136,19 +139,41 @@ app.get('/forgotpassword',
         //   res.sendFile('Login.html');
     });
 
+
+app.post('/forgotpassword',
+    function(req, res){
+        res.render('login');
+        //   res.sendFile('Login.html');
+    });
+
+
 app.post('/login',
     passport.authenticate('local', { failureRedirect: '/error' }),
-    function(req, res) {
+
+
+function(req, res) {
+
+    //change the login status
+
+    changeUserFlag(req.user.username, true);
+
         res.render('home',{ user: req.user ,title:"Sudoku Online Match"});
 
     });
 
 app.get('/logout',
     function(req, res){
+        //change the logged out status
+        changeUserFlag(req.user.username, false);
         req.logout();
         res.redirect('/');
     });
+function  changeUserFlag(username, status) {
+    var collection = conn.collection('tbl_user');
+    console.log("user name:  flag is changed"+ username);
+    collection.updateOne({"username":username}, {$set:{"onlineflag":status}});
 
+}
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
