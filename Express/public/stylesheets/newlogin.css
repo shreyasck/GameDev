@@ -134,6 +134,12 @@ textarea {
     margin-bottom: 40px;
 }
 
+.field-wrap1 {
+    position: absolute;
+    margin-bottom: 40px;
+    width: 39%;
+}
+
 .top-row:after {
     content: "";
     display: table;
@@ -152,7 +158,7 @@ textarea {
     border: 0;
     outline: none;
     border-radius: 0;
-    padding: 15px 0;
+    padding: 5px 0;
     font-size: 2rem;
     font-weight: 600;
     text-transform: uppercase;
