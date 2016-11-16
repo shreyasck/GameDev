@@ -1,0 +1,69 @@
+{ 
+    "_id" : ObjectId("581f6e02ccd394d0c830cc11"), 
+    "id" : 1.0, 
+    "username" : "jack", 
+    "password" : "123", 
+    "onlineflag" : true, 
+    "displayName" : "Nasir Taha Saleh", 
+    "emails" : [
+        {
+            "value" : "jack@example.com"
+        }
+    ], 
+    "email" : "nasir@com.com", 
+    "VerificationFlag" : false
+}
+{ 
+    "_id" : ObjectId("581f6e2dccd394d0c830cc13"), 
+    "id" : 3.0, 
+    "username" : "nasir", 
+    "password" : "123", 
+    "displayName" : "nasir", 
+    "emails" : [
+        {
+            "value" : "Nasir.Saleh@student.fh-kiel.de"
+        }
+    ], 
+    "email" : "nasir@com.com", 
+    "onlineflag" : false, 
+    "VerificationFlag" : false
+}
+{ 
+    "_id" : ObjectId("581f9b72ccd394d0c830cc14"), 
+    "id" : 4.0, 
+    "username" : "baba", 
+    "password" : "123", 
+    "displayName" : "baba", 
+    "emails" : [
+        {
+            "value" : "baba@example.com"
+        }
+    ], 
+    "email" : "Nasir.Saleh@student.fh-kiel.de", 
+    "onlineflag" : true, 
+    "VerificationFlag" : false
+}
+{ 
+    "_id" : ObjectId("581f5b2b68c0c7cab11eec8e"), 
+    "username" : "saleh", 
+    "password" : "123", 
+    "email" : "nasir@com.com", 
+    "id" : 5.0, 
+    "onlineflag" : false, 
+    "VerificationFlag" : false
+}
+{ 
+    "_id" : ObjectId("581f6e1cccd394d0c830cc12"), 
+    "id" : 2.0, 
+    "username" : "admin", 
+    "password" : "123", 
+    "displayName" : "Nasir Taha Mojmmed", 
+    "emails" : [
+        {
+            "value" : "Nasir.Saleh@student.fh-kiel.de"
+        }
+    ], 
+    "email" : "Nasir.Saleh@student.fh-kiel.de", 
+    "onlineflag" : false, 
+    "VerificationFlag" : true
+}

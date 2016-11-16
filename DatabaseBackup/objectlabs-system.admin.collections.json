@@ -1,0 +1,7 @@
+{ 
+    "_id" : "users", 
+    "viewMode" : "list", 
+    "tableDocumentView" : {
+        "_id" : "id"
+    }
+}
