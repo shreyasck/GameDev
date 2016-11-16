@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change User Information</title>
+</head>
+<body>
+<div>
+    <label>Username:</label>
+    <input type="text" name="username"/><br/>
+</div>
+<div>
+    <label>Password:</label>
+    <input type="password" name="password"/>
+</div>
+<div>
+
+</body>
+</html>
