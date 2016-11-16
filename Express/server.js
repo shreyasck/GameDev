@@ -8,9 +8,6 @@ var MongoClient = mongodb.MongoClient;
 var url = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
 var conn;
 
-
-
-
 mongodb.MongoClient.connect(url, function(err, database) {
     if(err) throw err;
 
@@ -177,6 +174,7 @@ function  changeUserFlag(username, status) {
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
+
         res.render('profile', { user: req.user , title:"Sudoku Online Match"});
     });
 
@@ -188,20 +186,15 @@ app.get('/startGame',
     });
 //app.listen(4000);
 
-app.get('/1',
+//testing
+
+
+
+app.get('/verification',
    // require('connect-ensure-login').ensureLoggedIn(),
 // need to change user verification flag to true
 
     function(req, res){
-        var collection = conn.collection('tbl_user');
-
-        var username = req.param('username');
-        var id = req.param('id');
-
-        console.log("user name:  VerificationFlag is changed"+ username + " ID : "+ id);
-
-        collection.updateOne({"username":username}, {$set:{"VerificationFlag":true}});
-
         res.render('verification'); //,{ user:req.user}
     })
 
