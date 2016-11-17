@@ -4,8 +4,8 @@ var Strategy = require('passport-local').Strategy;
 //var db= require('./db');
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
-//var url = 'mongodb://localhost:27017/mydb';
-var url = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
+var url = 'mongodb://localhost:27017/mydb';
+//var url = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
 var conn;
 
 
@@ -98,7 +98,7 @@ app.get('/test',
 
 app.get('/',
     function(req, res) {
-        res.render('login', { user: req.user, title:"Sudoku Online Match" });
+        res.render('login',{ message: "  "});
        // res.render('signin');
     });
 app.get('/home',
@@ -117,8 +117,8 @@ app.get('/login',
     function(req, res){
         //change status
         
-        res.render('login');
-     //   res.sendFile('Login.html');
+        res.render('login',{ message: "  "});
+        //   res.sendFile('Login.html');
     });
 
 app.get('/signin',
@@ -127,11 +127,7 @@ app.get('/signin',
         //   res.sendFile('Login.html');
     });
 
-app.post('/signup',
-    function(req, res){
-        res.render('signin');
-        //   res.sendFile('Login.html');
-    });
+
 
 app.get('/forgotpassword',
     function(req, res){
@@ -205,5 +201,54 @@ app.get('/1',
         res.render('verification'); //,{ user:req.user}
     })
 
+
+//
 module.exports = app;
 
+//Archana code
+function  UniqueUsername(username, password,cb) {
+    var collection = conn.collection('tbl_user');
+
+    collection.findOne({username:username}, function(err, item) {
+        if (!item) {  cb(null, false,{message: 'Unknown user'}); }
+        if (item.password != password) {  cb(null, false, {message: 'Invalid password'}); }
+         cb(null,true, "ok");// item);
+    });
+
+
+}
+app.post('/signup',
+    function(req, res) {
+// (1) collect data from form
+        var username = req.param('username');
+        var password = req.param('password');
+        var displayName = req.param('displayName');
+        var email = req.param('email');
+        console.log("username: " + username);
+        console.log("password: " + password);
+        console.log("displayName: " + displayName);
+        console.log("email: " + email);
+
+// (2) insure user not exist
+
+       /* var printFunction = function (par1, par2, data) {
+            console.log("data: " + data);
+        }
+        UniqueUsername(username,password, printFunction);
+        //console.log("return value:" + result);
+        */
+// (3) save new user in db
+        var collection = conn.collection('tbl_user');
+        var newUser = {username: username, password: password, email: email, displayName: displayName};
+        collection.insert(newUser, {w:1}, function (err, doc) {
+            console.log("User added:" + doc.id);
+            res.render('login', { message: "successfully registered"});
+        })
+// (4) Redirect to login page
+        //change the login status
+
+
+
+
+
+});
