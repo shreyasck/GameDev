@@ -4,8 +4,8 @@ var Strategy = require('passport-local').Strategy;
 //var db= require('./db');
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
-var url = 'mongodb://localhost:27017/mydb';
-//var url = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
+//var url = 'mongodb://localhost:27017/mydb';
+var url = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
 var conn;
 
 mongodb.MongoClient.connect(url, function(err, database) {
@@ -163,10 +163,12 @@ app.get('/logout',
     });
 function  changeUserFlag(username, status) {
     var collection = conn.collection('tbl_user');
-    console.log("user name:  flag is changed"+ username);
+    console.log("user name:  flag is changed "+ username);
     collection.updateOne({"username":username}, {$set:{"onlineflag":status}});
 
 }
+
+
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
@@ -245,3 +247,58 @@ app.post('/signup',
 
 
 });
+
+//testing
+app.get('/invite',
+    //require('connect-ensure-login').ensureLoggedIn(),
+    function(req, res){
+        //var list = listofonline(true);
+       // var list =[];
+
+
+
+        var collection = conn.collection('tbl_user');
+
+        collection.find({onlineflag:true}).toArray(function (err, result)
+        { if (err) { console.log(err); }
+
+        else if (result) {
+            res.render('invite', {onlineUsers: result, title: "Invite A Friend "});
+            console.log('Found:', result);
+        }
+        else { console.log('No document(s) found with defined "find" criteria!'); }
+             });
+
+
+
+
+      //  res.render('invite', {onlineUsers: result, title: "Invite A Friend "});
+
+
+    });
+    function listofonline ( status) {
+
+        var collection = conn.collection('tbl_user');
+        collection.find({onlineflag:status}, function(err, docs){
+          return docs;
+        });
+
+
+    //var collection = conn.collection('tbl_user')
+    //console.log("user names: " + username);
+
+    //var user = new DataAccessObject("miedb", "localhost", 27017, function() {
+      //  user.findAll("tbl_user",function() {console.log(arguments);});
+    //});
+
+    var user = [];
+    collection.find({},{'username' : 1}).forEach(function(o){
+        for (var i = 0; i < o.username.length; i++){
+            user.push(o.username)
+            console.log("user names: " + user);
+        }
+    })
+
+
+
+}
