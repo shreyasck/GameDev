@@ -1,0 +1,30 @@
+{ 
+    "_id" : ObjectId("582742ea13d0c88adb45309d"), 
+    "Id" : "1", 
+    "seq" : 0.0, 
+    "LevelName" : "Easy", 
+    "StandardTime" : 10.0, 
+    "Description" : "Easy Level"
+}
+{ 
+    "_id" : ObjectId("5827434f13d0c88adb45309e"), 
+    "Id" : "2", 
+    "seq" : 0.0, 
+    "LevelName" : "Medium", 
+    "StandardTime" : 10.0, 
+    "Description" : "Medium Level"
+}
+{ 
+    "_id" : ObjectId("582743f713d0c88adb45309f"), 
+    "Id" : "3", 
+    "seq" : 0.0, 
+    "LevelName" : "Advanced", 
+    "StandardTime" : 10.0, 
+    "Description" : "Advanced Level"
+}
+{ 
+    "_id" : ObjectId("58274c9b6cb43922a0aef27f")
+}
+{ 
+    "_id" : ObjectId("58274cbd6cb43922a0aef283")
+}
