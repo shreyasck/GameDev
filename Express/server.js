@@ -91,9 +91,9 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 
 var User = mongoose.model('UserData', userSchema);
 
-mongoose.connect('mongodb://sa:123@ds050189.mlab.com:50189/miedb');
+//mongoose.connect('mongodb://sa:123@ds050189.mlab.com:50189/miedb');
 
-//mongoose.connect('localhost');
+mongoose.connect('localhost');
 //mongodb.MongoClient.connect(url, function(err, database) {
   //  if(err) throw err;
 
