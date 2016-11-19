@@ -11,16 +11,20 @@
     <div id="reset">
         <h1>Reset Password?</h1>
     </div>
-    <form action="/reset/:token" method="post">
-        <div class="field-wrap">
+    <form action="/reset/<%= token %>" method="post">
+        <div class="field-wrap1">
             <label>
                 Email <span class="req">*</span>
             </label>
             <input type="text"required autocomplete="off" name="email"/>
+        </div>
+        <div class="field-wrap1">
             <label>
                 New Password <span class="req">*</span>
             </label>
             <input type="password"required autocomplete="off" name="password"/>
+        </div>
+        <div class="field-wrap1">
             <label>
                 Confirm Password <span class="req">*</span>
             </label>
