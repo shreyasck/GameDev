@@ -2,8 +2,8 @@
  * Created by Nasir on 11/19/2016.
  */
 var mongoose = require('mongoose');
-//var connectionString = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
-var connectionString = 'localhost';
+var connectionString = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
+//var connectionString = 'localhost';
 
 mongoose.connect(connectionString);
 
