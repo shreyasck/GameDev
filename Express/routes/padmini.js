@@ -6,6 +6,11 @@ var database = require("./database");
 
 
 
+router.get('/newTest',
+    function(req, res) {
+        res.render('test', {title: "Invite A Friend ", user: {username:'nasir',id:'123', displayName:'displayName'}});
+        // res.render('signin');
+    });
 router.get('/invite',
    // require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
@@ -22,7 +27,8 @@ router.get('/invite',
             else
             {
                 console.log("There are online users");
-                res.render('invite', {onlineUsers: onlineUsers, title: "Invite A Friend "});
+                res.render('invite',  {onlineUsers: onlineUsers, title: "Invite A Friend ",  user: req.user});
+                // {username:'nasir',id:'123', displayName:'displayName'}});
             }
         });
 
@@ -58,7 +64,8 @@ router.post ('/invite',
     function(id, cd){
 
         var collection = conn.collection('tbl_user');
-        collection.findOne({id:id}, function(err, email) {
+        database.User.findOne({id:id}, function(err, email) {
+     //   collection.findOne({id:id}, function(err, email) {
             if (err) { return cb(err); }
             cb(null,email);
         });
