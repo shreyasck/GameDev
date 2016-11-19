@@ -60,6 +60,4 @@ module.exports = {
     //userSchema : Schema,
     User : mongoose.model('tbl_user', Schema),
     GameDateSchema : mongoose.model('tbl_GameDateSchema', tbl_GameDateSchema)
-
-
 };

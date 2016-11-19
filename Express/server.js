@@ -12,7 +12,6 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var database = require("./routes/database");
 
-
 //var db= require('./db');
 //var mongodb = require('mongodb');
 //var MongoClient = mongodb.MongoClient;
@@ -115,12 +114,12 @@ app.post('/login', function(req, res, next) {
 
 
 passport.use(new LocalStrategy(function(username, password, done) {
-    //console.log("Login verification " + username + " "  + password);
+    console.log("Login verification " + username + " "  + password);
     database.User.findOne({ username: username }, function(err, user) {
         if (err) return done(err);
         if (!user)
         {
-            //console.log("No User");
+            console.log("No User");
             return done(null, false, { message: 'Incorrect username.' });
         }
         user.comparePassword(password, function(err, isMatch) {
@@ -256,7 +255,7 @@ app.post('/forgotpassword', function(req, res, next) {
 });
 
 app.get('/reset/:token', function(req, res) {
-    User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+    database.User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
         if (!user) {
             req.flash('error', 'Password reset token is invalid or has expired.');
             return res.redirect('/forgot');
@@ -271,7 +270,7 @@ app.post('/reset/:token', function(req, res) {
     async.waterfall([
         function(done) {
             //User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-            User.findOne({ email: req.body.email}, function(err, user) {
+            database.User.findOne({ email: req.body.email}, function(err, user) {
                 if (!user) {
                     req.flash('error', 'Password reset token is invalid or has expired.');
                     return res.redirect('back');
