@@ -405,4 +405,13 @@ app.use(archana);
 /////////////////////////////////////testing rebase and new local branch//////////////////////////
 module.exports = app;
 
-//Addwd by Nasir
+app.get('/SPStart',
+    function(req, res){
+        res.render('./SinglePlayer/SPChooseLevel');
+        //   res.sendFile('Login.html');
+    });
+app.get('/MPStart',
+    function(req, res){
+        res.render('./MultiPlayer/MPChooseLevel');
+        //   res.sendFile('Login.html');
+    });
