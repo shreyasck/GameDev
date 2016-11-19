@@ -1,6 +1,6 @@
 var express = require('express');
 var session = require('express-session')
-var mongoose = require('mongoose');
+
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var passport = require('passport');
@@ -9,29 +9,19 @@ var async = require('async');
 var crypto = require('crypto');
 var flash = require('express-flash');
 var LocalStrategy = require('passport-local').Strategy;
-mongoose.connect('localhost');
-//mongoose.connect('mongodb://sa:123@ds050189.mlab.com:50189/miedb');
 
+var database = require("./routes/database");
 
 
 //var db= require('./db');
 //var mongodb = require('mongodb');
 //var MongoClient = mongodb.MongoClient;
-//var url = 'mongodb://localhost:27017/mydb';
-//var url = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
+//var connectionString = 'mongodb://localhost:27017/mydb';
+//var connectionString = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
 //var conn;
 
 
-var userSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    onlineflag: {type: Boolean},
-    displayName: {type: String},
-    VerificationFlag: {type: Boolean},
-    resetPasswordToken: String,
-    resetPasswordExpires: Date
-});
+
 
 /*userSchema.pre('save', function(next) {
     var user = this;
@@ -53,32 +43,19 @@ var userSchema = new mongoose.Schema({
 
 
 
-userSchema.methods.comparePassword = function(candidatePassword, cb) {
-    console.log("ComparePassword " + candidatePassword + " " + this.password);
-    /*bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err)
-        {
-            console.log("Error");
-            return cb(err);
-        }
-        cb(null, isMatch);
-    });*/
-    if (this.password != candidatePassword) { return cb(null, false);}
-    cb(null, true);
-
-};
-
-var User = mongoose.model('UserData', userSchema);
 
 
 
 
-//mongodb.MongoClient.connect(url, function(err, database) {
+
+
+
+//mongodb.MongoClient.connect(connectionString, function(err, database) {
   //  if(err) throw err;
 
  //   conn = database;
 
- //   console.log('DB connected on: ' + url);
+ //   console.log('DB connected on: ' + connectionString);
 //});
 
 // Configure the local strategy for use by Passport.
@@ -102,7 +79,7 @@ app.set('view engine', 'ejs');
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
-app.use(require('morgan')('combined'));
+app.use(require('morgan')('tiny'));
 app.use(require('cookie-parser')());
 app.use(session({ secret: 'session secret key' }));
 app.use(flash());
@@ -139,7 +116,7 @@ app.post('/login', function(req, res, next) {
 
 passport.use(new LocalStrategy(function(username, password, done) {
     //console.log("Login verification " + username + " "  + password);
-    User.findOne({ username: username }, function(err, user) {
+    database.User.findOne({ username: username }, function(err, user) {
         if (err) return done(err);
         if (!user)
         {
@@ -161,7 +138,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
+    database.User.findById(id, function(err, user) {
         done(err, user);
     });
 });
@@ -229,7 +206,7 @@ app.post('/forgotpassword', function(req, res, next) {
             });
         },
         function(token, done) {
-            User.findOne({ email: req.body.email }, function(err, user) {
+            database.User.findOne({ email: req.body.email }, function(err, user) {
                 if (!user) {
                     //console.log("User not found " + req.body.email);
                     req.flash('error', 'No account with that email address exists.');
@@ -366,7 +343,7 @@ app.get('/logout',
     function(req, res) {
         //change the logged out status
         //changeUserFlag(req.user.username, false);
-        User.findOne({username: req.user.username}, function (err, user) {
+        database.User.findOne({username: req.user.username}, function (err, user) {
             if (!user) {
                 return res.redirect('back');
             }
@@ -394,7 +371,8 @@ app.post('/signup', function(req, res) {
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
-        displayName: req.body.fname + " " + req.body.lname
+        displayName: req.body.fname + " " + req.body.lname,
+        newID : '45'
     });
 
     user.save(function(err) {
