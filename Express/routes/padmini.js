@@ -1,19 +1,32 @@
 var express = require('express');
 var router = express.Router();
+var database = require("./database");
 
 /* GET home page. */
 
 
 
 router.get('/invite',
-    require('connect-ensure-login').ensureLoggedIn(),
+   // require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
+        console.log("invite function");
+        //var collection = conn.collection('tbl_users');
+        database.User.find({onlineflag:true}, function(err, onlineUsers) {
+            if (err) return
+                console.log(err);
+            if (!onlineUsers)
+            {
 
+                console.log("no body online");
+            }
+            else
+            {
+                console.log("There are online users");
+                res.render('invite', {onlineUsers: onlineUsers, title: "Invite A Friend "});
+            }
+        });
 
-
-        var collection = conn.collection('tbl_user');
-
-        collection.find({onlineflag:true}).toArray(function (err, result)
+       /* collection.find({onlineflag:true}).toArray(function (err, result)
         { if (err) { console.log(err); }
 
         else if (result) {
@@ -22,7 +35,7 @@ router.get('/invite',
         }
         else { console.log('No document(s) found with defined "find" criteria!'); }
         });
-
+*/
     });
 function listofonline ( status) {
 
@@ -39,9 +52,21 @@ function listofonline ( status) {
         }
     })
 
-
-
 }
+
+router.post ('/invite',
+    function(id, cd){
+
+        var collection = conn.collection('tbl_user');
+        collection.findOne({id:id}, function(err, email) {
+            if (err) { return cb(err); }
+            cb(null,email);
+        });
+
+
+        res.render('invite');
+        //   res.sendFile('invite.html');
+    });
 
 
 module.exports = router;

@@ -367,7 +367,7 @@ function  changeUserFlag(username, status) {
 
 
 app.post('/signup', function(req, res) {
-    var user = new User({
+    var user = new database.User({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,

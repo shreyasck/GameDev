@@ -1,0 +1,68 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>INVITING</title>
+
+    <img src="http://downloadicons.net/sites/default/files/user-icon-44709.png" alt="User" style="width:200px;height:200px;"/>
+    <h2  style="color:blue;">USER </h2>
+    <!--<script>
+        function togglecheckboxes(master,cn) {
+            var cbarray=document.getElementsByClassName(cn);
+            for (var i=0; i< cbarray.length;i++){
+                var cb = document.getElementById(cbarray[i].id);
+
+                cb.checked = master.checked;
+
+            }
+        }
+    </script>-->
+    <style>
+        table, th, td {
+            border: 1px solid black ;
+        }
+    </style>
+</head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<script src="../public/javascripts/Invite.js"></script>
+
+<body> 
+
+<div class="w3-container" style="text-align: center;">
+
+    <h1  style="color:BLUE;">Invite a friend !!!</h1><br>
+
+    <!--
+    <input type ="checkbox" id="usergrp_master" onchange="togglecheckboxes(this,'usergrp')"> Select all<br><br>-->
+
+    <table align="center" style="width:50%" style="text-align: center;"  class="w3-table-all w3-centered">
+        <tr>
+            <th>Online Players</th>
+
+
+        </tr>
+
+
+        <% if (onlineUsers.length) { %>
+
+            <% onlineUsers.forEach(function(user){ %>
+        <tr><td><input type="checkbox" id="user_1" class="usergrp">
+            <%= user.username %>
+            <% }) %>
+        </td>
+        <% } %>
+
+
+    </table>
+    <br>
+    <form action="invite.html">
+        <input type="submit" value="Submit"  class="w3-btn w3-indigo">
+    </form>
+    <p>If you click the "Submit" button, the invite will be sent to the selected player </p>
+</div>
+</body>
+</html>
