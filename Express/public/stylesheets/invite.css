@@ -1,0 +1,21 @@
+.myMainDiv{
+    align:center;
+    color: white;
+    style:"width:70%" ;style:"text-align: center";
+}
+
+
+.center {
+    align :center;
+    color: white;
+    style:"text-align: center";
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+}
+.textcenter{
+    align :center;
+    color: white;
+    style:"text-align: center";
+}
