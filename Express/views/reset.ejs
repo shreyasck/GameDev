@@ -3,13 +3,13 @@
     <meta charset="UTF-8">
     <title>Suduko Online game	</title>
     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="newlogin.css">
+    <link rel="stylesheet" href="../newlogin.css">
 </head>
 
 <body>
 <div class="form">
     <div id="reset">
-        <h1>Reset Password?</h1>
+        <h1>Reset Password</h1>
     </div>
     <form action="/reset/<%= token %>" method="post">
         <div class="field-wrap1">
@@ -18,23 +18,26 @@
             </label>
             <input type="text"required autocomplete="off" name="email"/>
         </div>
+        <br/><br/><br/>
         <div class="field-wrap1">
             <label>
                 New Password <span class="req">*</span>
             </label>
             <input type="password"required autocomplete="off" name="password"/>
         </div>
+        <br/><br/><br/>
         <div class="field-wrap1">
             <label>
                 Confirm Password <span class="req">*</span>
             </label>
             <input type="password"required autocomplete="off" name="confirmpass"/>
         </div>
+        <br/><br/><br/>
         <button type="submit" class="button button-block"/>Update Password</button>
     </form>
 
 </div> <!-- /form -->
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-
+<script src="../login.js"></script>
 </body>
 </html>
