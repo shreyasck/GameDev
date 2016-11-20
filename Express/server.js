@@ -4,50 +4,12 @@ var session = require('express-session')
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var passport = require('passport');
-var bcrypt = require('bcrypt-nodejs');
 var async = require('async');
 var crypto = require('crypto');
 var flash = require('express-flash');
 var LocalStrategy = require('passport-local').Strategy;
 
 var database = require("./routes/database");
-
-//var db= require('./db');
-//var mongodb = require('mongodb');
-//var MongoClient = mongodb.MongoClient;
-//var connectionString = 'mongodb://localhost:27017/mydb';
-//var connectionString = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
-//var conn;
-
-
-
-
-/*userSchema.pre('save', function(next) {
-    var user = this;
-    var SALT_FACTOR = 5;
-
-    if (!user.isModified('password')) return next();
-
-    bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
-        if (err) return next(err);
-
-        bcrypt.hash(user.password, salt, null, function(err, hash) {
-            if (err) return next(err);
-            user.password = hash;
-            next();
-        });
-    });
-});*/
-
-
-
-
-
-
-
-
-
-
 
 //mongodb.MongoClient.connect(connectionString, function(err, database) {
   //  if(err) throw err;
@@ -88,7 +50,6 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: false, save
 // Initialize Passport and restore authentication state, if any, from the
 // session.
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -111,7 +72,6 @@ app.post('/login', function(req, res, next) {
         });
     })(req, res, next);
 });
-
 
 passport.use(new LocalStrategy(function(username, password, done) {
     console.log("Login verification " + username + " "  + password);
