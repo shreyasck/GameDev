@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel="stylesheet" media="all" type="text/css" href="sudokuJS.css">
+    <style>
+        * {
+            margin:0; padding:0;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .wrap {
+            padding: 2em 1em;
+            width: 400px;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media(min-width: 30em){
+            .wrap{
+                width: 490px;
+            }
+            .sudoku-board input {
+                font-size: 24px;
+                font-size: 1.5rem;
+            }
+            .sudoku-board .candidates {
+                font-size: .8em;
+            }
+        }
+
+    </style>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>SudokuJS - demo with board generation</title>
+
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="sudokuJS.js"></script>
+    <script type="text/javascript" src="home.js"></script>
+</head>
+
+<body>
+<div id="wrap">
+    <div id="regbar">
+        <div id="navthing">
+            <div class="wrap">
+                <h1 style="color: #ffffff;">SudokuJS board generation</h1>
+
+                </br>
+
+                <table>
+                    <tr>
+                        <td align="center" style="vertical-align:middle;width:210px;height:45px;background-color:#c0c0c0;cursor:pointer;">
+                            <a href="GoBack" class="js-generate-board-btn--easy">Home</a></td>
+                        <td align="center" style="vertical-align:middle;width:210px;height:45px;background-color:#c0c0c0;cursor:pointer;">
+                            <a href="" class="js-generate-board-btn--easy">Save Game</a></td>
+                        <td align="center" style="vertical-align:middle;width:210px;height:45px;background-color:#c0c0c0;cursor:pointer;">
+                            <a class="js-solve-step-btn">Next Clue</a></td>
+                        <td align="center" style="vertical-align:middle;width:210px;height:45px;background-color:#c0c0c0;cursor:pointer;">
+                            <a class="js-generate-board-btn--hard">Re-start</a></td>
+
+                    </tr>
+                </table>
+
+                <br/>
+
+                <div style="height:50px;text-align:left;vertical-align:middle;background-repeat:no-repeat;color:#ffffff;font-size:25px;">
+                Time <div style="color:#ffffff" id="timerDisp">00:00</div>
+            </div>
+
+            <!--show candidates toggle-->
+            <label style="color: #ffffff" for="toggleCandidates">Show candidates </label><input id="toggleCandidates" class="js-candidate-toggle" type="checkbox"/>
+            <!--genrate board btns-->
+
+            <!--the only required html-->
+            <div id="sudoku" class="sudoku-board" onload="onThisLoad();">
+            </div>
+
+            <!--solve buttons-->
+            <!--Solve: <button type="button" class="js-solve-step-btn">One Step</button><button type="button" class="js-solve-all-btn">All</button>
+            <br>
+            <!--clear board btn-->
+            <!--Clear: <button type="button" class="js-clear-board-btn">Board</button>-->
+        </div>
+
+        <script>
+
+
+            var	$solveStepBtn = $(".js-solve-step-btn"),
+                    $solveAllBtn = $(".js-solve-all-btn"),
+                    $clearBoardBtn = $(".js-clear-board-btn"),
+                    $candidateToggle = $(".js-candidate-toggle");
+
+            var mySudokuJS = $("#sudoku").sudokuJS({
+                difficulty: sessionStorage.getItem("GAME_LEVEL")//ٍ Startup level
+                //change state of our candidate showing checkbox on change in sudokuJS
+                ,candidateShowToggleFn : function(showing){
+                    $candidateToggle.prop("checked", showing);
+                }
+            });
+
+            $solveStepBtn.on("click", mySudokuJS.solveStep);
+            $solveAllBtn.on("click", mySudokuJS.solveAll);
+            $clearBoardBtn.on("click", mySudokuJS.clearBoard);
+
+            $candidateToggle.on("change", function(){
+                if($candidateToggle.is(":checked"))
+                    mySudokuJS.showCandidates();
+                else
+                    mySudokuJS.hideCandidates();
+            });
+            $candidateToggle.trigger("change");
+        </script>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
