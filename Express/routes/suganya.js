@@ -16,7 +16,7 @@ router.get('/signup', function(req, res) {
     });
 });
 
-router.get('/chooseLevel',
+/*router.get('/chooseLevel',
     require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
         res.render('SinglePlayer/SPChooseLevel');//, { user: req.user });
@@ -43,6 +43,6 @@ router.post('/singlePlayer',
 
         res.render('singlePlayer');//, { user: req.user });
     });
-
+*/
 
 module.exports = router;
