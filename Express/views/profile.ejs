@@ -1,23 +1,22 @@
+<% include ../views/header.ejs %>
+<link rel="stylesheet" href="profile.css">
+<form action="/profile" method="post">
 
-<p>
-ID: <%= user.id %><br/>
-Username: <%= user.username %><br/>
-Name: <%= user.displayName %><br/>
-Email: <%= user.email %><br/>
-</p>
-<a href="/logout">Log out</a>
+    <br/><h1><font color="#fffaf0">Welcome to your Profile..!</font> </h1>
+    <br/>
+        <h3><div class="title">ID:</div><div class="fetch"><%= user.id %></div></h3><br/>
+    <h3><div class="title">Username:</div><div class="fetch"><%= user.username %></div></h3><br/>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User Information</title>
-</head>
-<body>
+        <h3><div class="title">Name:<div class="fetch"><%= user.displayName %></div></h3><br/>
+            <h3><div class="title">Score:</div><div class="fetch"><%= user.score %></div></h3><br/>
+                <h3><div class="title">Creation Date:</div><div class="fetch"><%= user.creationDate%></div></h3><br/>
+        <% if (user.emails) { %>
+                    <h3><div class="title">Email:</div><div class="fetch"><%= user.emails[0].value %></div></h3><br/>
 
-<h2>Username:<%= user.username %> </h2>
-<h2>E-mail: <%= user.email %> </h2>
-<h2>Creation Date: </h2>
-<h2>Score:</h2>
-</body>
-</html>
+
+
+    <% } %>
+    <a href="editProfile"> Edit Profile </a>
+    <a href="changePassword"> Change Password </a><br/>
+</form>
+<% include ../views/footer.ejs %>
