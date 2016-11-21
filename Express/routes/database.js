@@ -1,9 +1,10 @@
 /**
  * Created by Nasir on 11/19/2016.
  */
-var mongoose = require('mongoose');
-//var connectionString = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
-var connectionString = 'localhost';
+var mongoose = require('mongoose')
+    , Schema = mongoose.Schema;
+var connectionString = 'mongodb://sa:123@ds050189.mlab.com:50189/miedb';
+//var connectionString = 'localhost';
 
 mongoose.connect(connectionString);
 
@@ -24,7 +25,7 @@ mongoose.connection.on('disconnected', function () {
 
 var bcrypt = require('bcrypt-nodejs');
 
-var Schema = new mongoose.Schema({
+var tbl_userSchema = new mongoose.Schema({
     username: {type: String, required: true, unique: true},
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
@@ -34,11 +35,32 @@ var Schema = new mongoose.Schema({
     resetPasswordToken: String,
     resetPasswordExpires: Date
 });
-var  tbl_GameDateSchema = new mongoose.Schema({
-    id: {type: String}
+
+var tbl_levelsDataSchema = new mongoose.Schema({
+    _id: {type: String, required: true, unique: true},
+    levelname: {type: String, required: true},
+    standartTime: {type: Date},
+    discription: {type: String}
 });
 
-Schema.pre('save', function(next) {
+var tbl_GameLvlStoredDataSchema = new mongoose.Schema({
+    _id: {type: String, required: true, unique: true},
+    level_id: {type: Schema.Types.ObjectId, ref: 'LevelsData'},
+    gameData: [Number]
+});
+
+var  tbl_GameDataSchema = new mongoose.Schema({
+    _id: {type: String, required: true, unique: true},
+    level_id: {type: Schema.Types.ObjectId, ref: 'LevelsData'},
+    user_id: {type: Schema.Types.ObjectId, ref: 'User'},
+    gameJsonData: [Number],
+    score: Number,
+    Date: Date,
+    gamelvldata_id: {type: Schema.Types.ObjectId, ref: 'GameLvlStoredData'}
+});
+
+
+tbl_userSchema.pre('save', function(next) {
  var user = this;
  var SALT_FACTOR = 5;
 
@@ -55,7 +77,7 @@ Schema.pre('save', function(next) {
  });
  });
 
-Schema.methods.comparePassword = function(candidatePassword, cb) {
+tbl_userSchema.methods.comparePassword = function(candidatePassword, cb) {
    // console.log("ComparePassword " + candidatePassword + " " + this.password);
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err)
@@ -77,6 +99,8 @@ module.exports = {
         return "Bye";
     },
     //userSchema : Schema,
-    User : mongoose.model('tbl_user', Schema),
-    GameDateSchema : mongoose.model('tbl_GameDateSchema', tbl_GameDateSchema)
+    User : mongoose.model('tbl_user', tbl_userSchema),
+    GameDataSchema : mongoose.model('tbl_GameData', tbl_GameDataSchema),
+    LevelsDataSchema : mongoose.model('tbl_levelsData', tbl_levelsDataSchema),
+    GameLvlStoredDataSchema : mongoose.model('tbl_GameLvlStoredData', tbl_GameLvlStoredDataSchema)
 };

@@ -44,5 +44,4 @@ router.post('/singlePlayer',
         res.render('singlePlayer');//, { user: req.user });
     });
 
-
 module.exports = router;
