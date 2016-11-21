@@ -1,0 +1,47 @@
+<% include ../views/header.ejs %>
+<div class="form">
+
+    <div id="editProfile">
+        <h1>Suduko Online game</h1>
+        displayName
+        <form action="/editProfile" method="post">
+
+
+            <div class="field-wrap">
+
+                <input type="hidden" value=<%= username %> required autocomplete="off" name="username"/>
+            </div>
+
+
+            <div class="field-wrap">
+                <label>
+                    Display Name<span class="req">*</span>
+                </label>
+                <input type="text" required autocomplete="off" name="displayName"/>
+            </div>
+</form>
+
+    </div>
+
+    <div class="field-wrap">
+        <label>
+            Email-Id<span class="req">*</span>
+        </label>
+        <input type="text" required autocomplete="off" name="email"/>
+    </div>
+
+</div>
+
+<!-- no password field should be there
+                <div class="field-wrap">
+                    <label>
+                        Edit Password<span class="req">*</span>
+                    </label>
+                    <input type="password"required autocomplete="off" name="password"/>
+                </div>
+                -->
+
+<button type="submit" class="button"/>Edit Profile</button>
+
+
+<% include ../views/footer.ejs %>
