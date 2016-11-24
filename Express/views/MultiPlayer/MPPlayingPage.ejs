@@ -1,66 +1,294 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
 <head>
-    <title>Socket.IO chat</title>
+    <meta charset="utf-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel="stylesheet" media="all" type="text/css" href="sudokuJS.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font: 13px Helvetica, Arial; }
-        form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-        form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-        form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-        #messages { list-style-type: none; margin: 0; padding: 0; }
-        #messages li { padding: 5px 10px; }
-        #messages li:nth-child(odd) { background: #eee; }
-    </style>
-</head>
-<body>
-<div id="chat">
-    <div id="messages">
 
-    </div>
-    <form action="">
-        <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+
+        table, th, td {
+            border:0px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+
+        * {
+            margin:0; padding:0;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .wrap {
+            padding: 2em 1em;
+            width: 400px;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media(min-width: 30em){
+            .wrap{
+                width: 490px;
+            }
+            .sudoku-board input {
+                font-size: 24px;
+                font-size: 1.5rem;
+            }
+            .sudoku-board .candidates {
+                font-size: .8em;
+            }
+        }
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+
+        /* Add Animation */
+        @-webkit-keyframes animatetop {
+            from {top:-300px; opacity:0}
+            to {top:0; opacity:1}
+        }
+
+        @keyframes animatetop {
+            from {top:-300px; opacity:0}
+            to {top:0; opacity:1}
+        }
+
+        /* The Close Button */
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+
+        .modal-body {padding: 2px 16px;}
+
+        .modal-footer {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+    </style>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>SudokuJS - demo with board generation</title>
+
+
+
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-        var socket = io();
-        $('form').submit(function(){
-            /* socket.emit('fromClientToServer', $('#m').val(), function (data) {
-             $('#messages').append($('<li>').text('reply from server'));
-             $('#messages').append($('<li>').text(data));
-             });
-             // $('#m').val('');
-             return false;
-             });*/
 
-            socket.emit('fromClientToClient', $('#m').val(), function (data) {
-                $('#messages').append($('<li>').text('reply from server: '+ data));
-            });
-            // $('#m').val('');
-            return false;
-        });
 
-        socket.on('welcomeMessage', function(msg){
-            $('#messages').append($('<li>').text(msg));
-            //alert(socket.id);
-            // alert();
+    <script src="multiPlayerLogic.js"></script>
+    <script type="text/javascript" src="sudokuJS.js"></script>
+    <script type="text/javascript" src="home.js"></script>
+</head>
 
-            socket.emit('newClient', ' ', function (data) {
-                $('#messages').append($('<li>').text('Message from server: ' + data));
-            });
-        });
+<body>
+<div id="wrap">
+    <div id="regbar">
+        <div id="navthing">
+            <div class="wrap">
+                <h1 style="color: #ffffff;">SudokuJS board generation</h1>
 
-        socket.on('privateMessage', function(msg){
-            $('#messages').append($('<li>').text(msg));
-            //alert(socket.id);
-            // alert();
+                </br>
 
-            socket.emit('newClient', ' ', function (data) {
-                $('#messages').append($('<li>').text('private Message: '+ data));
-            });
-        });
-    </script>
+                <table>
+                    <tr>
+                        <td align="center" style="vertical-align:middle;width:210px;height:45px;background-color:#c0c0c0;cursor:pointer;">
+                            <a href="GoBack" class="js-generate-board-btn--easy">Home</a></td>
+                        <td align="center" style="vertical-align:middle;width:210px;height:45px;background-color:#c0c0c0;cursor:pointer;">
+                            <a href="" class="js-generate-board-btn--easy">Save Game</a></td>
+                        <td align="center" style="vertical-align:middle;width:210px;height:45px;background-color:#c0c0c0;cursor:pointer;">
+                            <a class="js-solve-step-btn">Next Clue</a></td>
+                        <td align="center" style="vertical-align:middle;width:210px;height:45px;background-color:#c0c0c0;cursor:pointer;">
+                            <a class="js-generate-board-btn--hard">Re-start</a></td>
+                        <td align="center" style="vertical-align:middle;width:210px;height:45px;background-color:#c0c0c0;cursor:pointer;">
+                            <a class="js-generate-board-btn--invite"><button type="button" onclick="btnInvite()">Invite</button> </a>
+
+                        </td>
+
+                    </tr>
+                </table>
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="close">×</span>
+                            <h2>Please Select the user to Play</h2>
+                        </div>
+                        <div class="modal-body" id="modal-body">
+
+                        </div>
+                        <div class="modal-footer" id="modal-footer">
+
+                        </div>
+                    </div>
+
+                </div>
+                <br/>
+
+                <div style="height:50px;text-align:left;vertical-align:middle;background-repeat:no-repeat;color:#ffffff;font-size:25px;">
+                    Time <div style="color:#ffffff" id="timerDisp">00:00</div>
+                </div>
+
+                <!--show candidates toggle-->
+                <label style="color: #ffffff" for="toggleCandidates">Show candidates </label><input id="toggleCandidates" class="js-candidate-toggle" type="checkbox"/>
+                <!--genrate board btns-->
+
+                <!--the only required html-->
+                <div id="sudoku" class="sudoku-board" onload="onThisLoad();">
+                </div>
+
+                <!--solve buttons-->
+                <!--Solve: <button type="button" class="js-solve-step-btn">One Step</button><button type="button" class="js-solve-all-btn">All</button>
+                <br>
+                <!--clear board btn-->
+                <!--Clear: <button type="button" class="js-clear-board-btn">Board</button>-->
+            </div>
+
+
+
+            <div id="dialog" title="Invite User">
+
+
+            </div>
+
+            <script>
+                var modal = document.getElementById('myModal');
+                //document.getElementsById('sudoku').style.display = "hidden";
+                $('#sudoku').hide();
+
+                var	$solveStepBtn = $(".js-solve-step-btn"),
+                        $solveAllBtn = $(".js-solve-all-btn"),
+                        $clearBoardBtn = $(".js-clear-board-btn"),
+                        $candidateToggle = $(".js-candidate-toggle");
+                $btnInviteOnlineuser=$(".js-generate-board-btn--invite");
+                var mySudokuJS = $("#sudoku").sudokuJS({
+                    difficulty: sessionStorage.getItem("GAME_LEVEL")//ٍ Startup level
+                    //change state of our candidate showing checkbox on change in sudokuJS
+                    ,candidateShowToggleFn : function(showing){
+                        $candidateToggle.prop("checked", showing);
+                    }
+                });
+
+                $solveStepBtn.on("click", mySudokuJS.solveStep);
+                $solveAllBtn.on("click", mySudokuJS.solveAll);
+                $clearBoardBtn.on("click", mySudokuJS.clearBoard);
+                $btnInviteOnlineuser.on("click", mySudokuJS.inviteUser);
+
+                $candidateToggle.on("change", function(){
+                    if($candidateToggle.is(":checked"))
+                        mySudokuJS.showCandidates();
+                    else
+                        mySudokuJS.hideCandidates();
+                });
+                $candidateToggle.trigger("change");
+
+                //document.getElementsByClassName("js-generate-board-btn--invite")
+                function btnInvite() {
+
+
+                    $("#modal-body").text("");
+                    //  alert("Hi");
+
+                    $("#modal-body").append("<table>");
+                    $("#modal-footer").append(" <button type='button' onclick='btnInviteUserByID()'>Invite</button>  ");
+
+                    socket.emit('fromClientToServer', "myID", function (data) {
+                        jQuery.each( data, function( i, val ) {
+                            $("#modal-body").append("<tr><td><input type='radio' name='username' value='"+  val.displayName +"'></td><td>"+val.displayName+" </td></tr>");
+                        });
+                    });
+
+
+                    $("#modal-body").append("</table>");
+                    modal.style.display = "block";
+                    return false;
+
+                }
+
+                function btnInviteUserByID(userID) {
+
+                    var radioValue = $("input[name='username']:checked").val();
+
+
+
+                    alert("Your are a - " + radioValue);
+
+                }
+
+                // Get the modal
+
+
+                // Get the button that opens the modal
+
+
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+
+                // When the user clicks the button, open the modal
+
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            </script>
+        </div>
+    </div>
 </div>
+
 </body>
 </html>

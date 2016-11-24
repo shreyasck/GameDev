@@ -7,7 +7,7 @@
 var app = require('../server');
 var debug = require('debug')('express:server');
 var http = require('http');
-
+var database = require("../routes/database");
 /**
  * Get port from environment and store in Express.
  */
@@ -114,8 +114,11 @@ io.on('connection', function(socket){
   });
   socket.on("fromClientToServer", function (message, callback) {
     console.log('message from client: '+ message);
-    if(callback)  callback('cb, Your message received ' + socket.id);
+    database.User.find({onlineflag:true}, function (err, rows) {
+      if(callback)  callback(rows);//socket.id);
+    });
   });
+
   socket.on("fromClientToClient", function (message, callback) {
     clients[0].emit('privateMessage', 'Private MSG: '+message);
     console.log('message from client to another: '+ message);
